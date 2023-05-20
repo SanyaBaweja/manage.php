@@ -1,0 +1,519 @@
+
+<form action="" method="post">
+<table border="1px">
+    <tr><th>Job Reference Number:</th>
+        <td> <input type="text" name="reference_number" ></td>
+    <td align="right"> <input type="submit" value="Show" name="btn1">
+</td>
+</tr>
+<tr><th>First Name:</th>
+        <td> <input type="text" name="first_name" ></td>
+    <td align="right"><input type="submit" value="Show" name="btn2">
+
+</td>
+</tr>
+<tr><th>Last Name:</th>
+        <td> <input type="text" name="last_name" ></td>
+    <td align="right"> <input type="submit" value="Show" name="btn3">
+</td>
+</tr>
+<tr><th>Delete by Reference number:</th>
+        <td> <input type="text" name="delete" ></td>
+    <td align="right"> <input type="submit" value="Delete" name="btn4">
+</td>
+</tr>
+
+<tr><th>Update status by Reference number</th>
+        <td> <input type="text" name="update" ></td>
+    <td align="right"> <input type="submit" value="Update" name="btn5">
+    <input type="radio" id="New" name="status" value="New" required>
+    <label for="New">New</label>
+    <input type="radio" id="Current" name="status" value="Current">
+    <label for="Current">Current</label>
+
+    <input type="radio" id="Final" name="status" value="Final">
+    <label for="Final">Final</label>
+</td>
+</tr>
+<tr><th>Show all EOIs</th>
+    <td>
+<input type="submit" value="Show All EOIs" name="btn">
+</td>
+</tr>
+</table>
+</form>
+
+<?php 
+  if(isset($_POST['btn'])){
+     $name=$_POST['reference_number'];
+     require_once ("settings.php");
+        $conn = @mysqli_connect($host,
+        $user,
+        $pwd,
+        $sql_db
+);
+
+if (!$conn) {
+    echo "<p>Database connection failure</p>";
+}else {
+    $sql_table="eoi";
+    $query = "select * from eoi";
+    $result = mysqli_query($conn, $query);
+    if (!$result){
+        echo "<p>No data found!<p>";
+    }else{
+       #$query1 = "select * from eoi";
+    #select * from eoi
+    
+
+        echo "<table border = \"1\">\n";
+        echo "<tr>\n "
+        ."<th scope = \"col\">EOInumber</th>\n "
+        ."<th scope = \"col\">JobReferencenumber</th>\n "
+        ."<th scope = \"col\">FirstName</th>\n "
+        ."<th scope = \"col\">LastName</th>\n "
+        ."<th scope = \"col\">Streetaddress</th>\n "
+        ."<th scope = \"col\">Suburbtown</th>\n "
+        ."<th scope = \"col\">State</th>\n "
+        ."<th scope = \"col\">Postcode</th>\n "
+        ."<th scope = \"col\">Emailaddress</th>\n "
+        ."<th scope = \"col\">Phonenumber</th>\n "
+        ."<th scope = \"col\">Skill1</th>\n "
+        ."<th scope = \"col\">Skill2</th>\n "
+        ."<th scope = \"col\">Skill3</th>\n "
+        ."<th scope = \"col\">Skill4</th>\n "
+        ."<th scope = \"col\">Skill5</th>\n "
+        ."<th scope = \"col\">Otherskills</th>\n "
+        ."<th scope = \"col\">Status</th>\n "
+        ."</tr>\n ";
+        
+        while ($row = mysqli_fetch_assoc($result)){
+            echo "<tr>\n ";
+            echo "<td>", $row["EOInumber"], "</td>\n ";
+            echo "<td>", $row["JobReferencenumber"], "</td>\n ";
+            echo "<td>", $row["FirstName"], "</td>\n ";
+            echo "<td>", $row["LastName"], "</td>\n ";
+            echo "<td>", $row["Streetaddress"], "</td>\n ";
+            echo "<td>", $row["Suburbtown"], "</td>\n ";
+            echo "<td>", $row["State"], "</td>\n ";
+            echo "<td>", $row["Postcode"], "</td>\n ";
+            echo "<td>", $row["Emailaddress"], "</td>\n ";
+            echo "<td>", $row["Phonenumber"], "</td>\n ";
+            echo "<td>", $row["Skill1"], "</td>\n ";
+            echo "<td>", $row["Skill2"], "</td>\n ";
+            echo "<td>", $row["Skill3"], "</td>\n ";
+            echo "<td>", $row["Skill4"], "</td>\n ";
+            echo "<td>", $row["Skill5"], "</td>\n ";
+            echo "<td>", $row["Otherskills"], "</td>\n ";
+            echo "<td>", $row["Status"], "</td>\n ";
+            // echo "<td>", '<input type="submit" value="Delete" name="btndelete">', "</td>\n";
+            // echo "<td>", '<input type="submit" value="Update" name="btnupdate">', "</td>\n";
+            echo "</tr>\n ";
+        }
+        echo "</table>\n ";
+        mysqli_free_result($result);
+    }
+        mysqli_close($conn);
+        
+    
+}
+    
+    }
+    if(isset($_POST['btn1'])){
+        $name=$_POST['reference_number'];
+         require_once ("settings.php");
+           $conn = @mysqli_connect($host,
+           $user,
+           $pwd,
+           $sql_db
+   );
+   
+   if (!$conn) {
+       echo "<p>Database connection failure</p>";
+   }else {
+
+       $ref = $_POST['reference_number'];
+       $sql_table="eoi";
+       $sql = "select * from eoi where JobReferencenumber like '%$ref%'";
+
+       $result = mysqli_query($conn, $sql);
+       if (!$result){
+           echo "<p>No data found! ", $sql, "<p>";
+       }else{
+          #$query1 = "select * from eoi";
+       #select * from eoi
+       
+   
+           echo "<table border = \"1\">\n";
+           echo "<tr>\n "
+           ."<th scope = \"col\">EOInumber</th>\n "
+           ."<th scope = \"col\">JobReferencenumber</th>\n "
+           ."<th scope = \"col\">FirstName</th>\n "
+           ."<th scope = \"col\">LastName</th>\n "
+           ."<th scope = \"col\">Streetaddress</th>\n "
+           ."<th scope = \"col\">Suburbtown</th>\n "
+           ."<th scope = \"col\">State</th>\n "
+           ."<th scope = \"col\">Postcode</th>\n "
+           ."<th scope = \"col\">Emailaddress</th>\n "
+           ."<th scope = \"col\">Phonenumber</th>\n "
+           ."<th scope = \"col\">Skill1</th>\n "
+           ."<th scope = \"col\">Skill2</th>\n "
+           ."<th scope = \"col\">Skill3</th>\n "
+           ."<th scope = \"col\">Skill4</th>\n "
+           ."<th scope = \"col\">Skill5</th>\n "
+           ."<th scope = \"col\">Otherskills</th>\n "
+           ."<th scope = \"col\">Status</th>\n "
+   
+           ."</tr>\n ";
+           $row = mysqli_fetch_assoc($result);
+           while ($row) {
+               echo "<tr>\n ";
+               echo "<td>", $row["EOInumber"], "</td>\n ";
+               echo "<td>", $row["JobReferencenumber"], "</td>\n ";
+               echo "<td>", $row["FirstName"], "</td>\n ";
+               echo "<td>", $row["LastName"], "</td>\n ";
+               echo "<td>", $row["Streetaddress"], "</td>\n ";
+               echo "<td>", $row["Suburbtown"], "</td>\n ";
+               echo "<td>", $row["State"], "</td>\n ";
+               echo "<td>", $row["Postcode"], "</td>\n ";
+               echo "<td>", $row["Emailaddress"], "</td>\n ";
+               echo "<td>", $row["Phonenumber"], "</td>\n ";
+               echo "<td>", $row["Skill1"], "</td>\n ";
+               echo "<td>", $row["Skill2"], "</td>\n ";
+               echo "<td>", $row["Skill3"], "</td>\n ";
+               echo "<td>", $row["Skill4"], "</td>\n ";
+               echo "<td>", $row["Skill5"], "</td>\n ";
+               echo "<td>", $row["Otherskills"], "</td>\n ";
+               echo "<td>", $row["Status"], "</td>\n ";
+               echo "</tr>\n ";
+               $row = mysqli_fetch_assoc($result);
+           }
+           echo "</table>\n ";
+           mysqli_free_result($result);
+       }
+           mysqli_close($conn);
+           
+       
+   }
+       
+       }
+       if(isset($_POST['btn2'])){
+        $name=$_POST['reference_number'];
+        require_once ("settings.php");
+           $conn = @mysqli_connect($host,
+           $user,
+           $pwd,
+           $sql_db
+   );
+   
+   if (!$conn) {
+       echo "<p>Database connection failure</p>";
+   }else {
+    $fname = $_POST['first_name'];
+    $sql_table="eoi";
+    $query2 = "select * from eoi where FirstName like '%$fname%'";
+       $result = mysqli_query($conn, $query2);
+       if (!$result){
+           echo "<p>No data found! ", $query, "<p>";
+       }else{
+          #$query1 = "select * from eoi";
+       #select * from eoi
+       
+   
+           echo "<table border = \"1\">\n";
+           echo "<tr>\n "
+           ."<th scope = \"col\">EOInumber</th>\n "
+           ."<th scope = \"col\">JobReferencenumber</th>\n "
+           ."<th scope = \"col\">FirstName</th>\n "
+           ."<th scope = \"col\">LastName</th>\n "
+           ."<th scope = \"col\">Streetaddress</th>\n "
+           ."<th scope = \"col\">Suburbtown</th>\n "
+           ."<th scope = \"col\">State</th>\n "
+           ."<th scope = \"col\">Postcode</th>\n "
+           ."<th scope = \"col\">Emailaddress</th>\n "
+           ."<th scope = \"col\">Phonenumber</th>\n "
+           ."<th scope = \"col\">Skill1</th>\n "
+           ."<th scope = \"col\">Skill2</th>\n "
+           ."<th scope = \"col\">Skill3</th>\n "
+           ."<th scope = \"col\">Skill4</th>\n "
+           ."<th scope = \"col\">Skill5</th>\n "
+           ."<th scope = \"col\">Otherskills</th>\n "
+           ."<th scope = \"col\">Status</th>\n "
+   
+           ."</tr>\n ";
+           while ($row = mysqli_fetch_assoc($result)){
+               echo "<tr>\n ";
+               echo "<td>", $row["EOInumber"], "</td>\n ";
+               echo "<td>", $row["JobReferencenumber"], "</td>\n ";
+               echo "<td>", $row["FirstName"], "</td>\n ";
+               echo "<td>", $row["LastName"], "</td>\n ";
+               echo "<td>", $row["Streetaddress"], "</td>\n ";
+               echo "<td>", $row["Suburbtown"], "</td>\n ";
+               echo "<td>", $row["State"], "</td>\n ";
+               echo "<td>", $row["Postcode"], "</td>\n ";
+               echo "<td>", $row["Emailaddress"], "</td>\n ";
+               echo "<td>", $row["Phonenumber"], "</td>\n ";
+               echo "<td>", $row["Skill1"], "</td>\n ";
+               echo "<td>", $row["Skill2"], "</td>\n ";
+               echo "<td>", $row["Skill3"], "</td>\n ";
+               echo "<td>", $row["Skill4"], "</td>\n ";
+               echo "<td>", $row["Skill5"], "</td>\n ";
+               echo "<td>", $row["Otherskills"], "</td>\n ";
+               echo "<td>", $row["Status"], "</td>\n ";
+               echo "</tr>\n ";
+           }
+           echo "</table>\n ";
+           mysqli_free_result($result);
+       }
+           mysqli_close($conn);
+           
+       
+   }
+       
+       }
+
+       if(isset($_POST['btn3'])){
+        $name=$_POST['reference_number'];
+        require_once ("settings.php");
+           $conn = @mysqli_connect($host,
+           $user,
+           $pwd,
+           $sql_db
+   );
+   
+   if (!$conn) {
+       echo "<p>Database connection failure</p>";
+   }else {
+    $lname = $_POST['last_name'];
+    $sql_table="eoi";
+    $query3 = "select * from eoi where LastName like '%$lname%'";
+       $result = mysqli_query($conn, $query3);
+       if (!$result){
+           echo "<p>No data found! ", $query3, "<p>";
+       }else{
+          #$query1 = "select * from eoi";
+       #select * from eoi
+       
+   
+           echo "<table border = \"1\">\n";
+           echo "<tr>\n "
+           ."<th scope = \"col\">EOInumber</th>\n "
+           ."<th scope = \"col\">JobReferencenumber</th>\n "
+           ."<th scope = \"col\">FirstName</th>\n "
+           ."<th scope = \"col\">LastName</th>\n "
+           ."<th scope = \"col\">Streetaddress</th>\n "
+           ."<th scope = \"col\">Suburbtown</th>\n "
+           ."<th scope = \"col\">State</th>\n "
+           ."<th scope = \"col\">Postcode</th>\n "
+           ."<th scope = \"col\">Emailaddress</th>\n "
+           ."<th scope = \"col\">Phonenumber</th>\n "
+           ."<th scope = \"col\">Skill1</th>\n "
+           ."<th scope = \"col\">Skill2</th>\n "
+           ."<th scope = \"col\">Skill3</th>\n "
+           ."<th scope = \"col\">Skill4</th>\n "
+           ."<th scope = \"col\">Skill5</th>\n "
+           ."<th scope = \"col\">Otherskills</th>\n "
+           ."<th scope = \"col\">Status</th>\n "
+   
+           ."</tr>\n ";
+           while ($row = mysqli_fetch_assoc($result)){
+               echo "<tr>\n ";
+               echo "<td>", $row["EOInumber"], "</td>\n ";
+               echo "<td>", $row["JobReferencenumber"], "</td>\n ";
+               echo "<td>", $row["FirstName"], "</td>\n ";
+               echo "<td>", $row["LastName"], "</td>\n ";
+               echo "<td>", $row["Streetaddress"], "</td>\n ";
+               echo "<td>", $row["Suburbtown"], "</td>\n ";
+               echo "<td>", $row["State"], "</td>\n ";
+               echo "<td>", $row["Postcode"], "</td>\n ";
+               echo "<td>", $row["Emailaddress"], "</td>\n ";
+               echo "<td>", $row["Phonenumber"], "</td>\n ";
+               echo "<td>", $row["Skill1"], "</td>\n ";
+               echo "<td>", $row["Skill2"], "</td>\n ";
+               echo "<td>", $row["Skill3"], "</td>\n ";
+               echo "<td>", $row["Skill4"], "</td>\n ";
+               echo "<td>", $row["Skill5"], "</td>\n ";
+               echo "<td>", $row["Otherskills"], "</td>\n ";
+               echo "<td>", $row["Status"], "</td>\n ";
+               echo "</tr>\n ";
+           }
+           echo "</table>\n ";
+           mysqli_free_result($result);
+       }
+           mysqli_close($conn);
+           
+       
+   }
+       
+       }
+       
+//        require_once "settings.php";
+// $conn = @mysqli_connect ($host,$user,$pwd,$sql_db);
+// if ($conn) {
+// $query = "delete from eoi where reference_number = ";
+// $result = mysqli_query ($conn, $query);
+// if ($result) { echo "<p>Deleted"
+// .mysqli_affected_rows($dbConnect) . " record(s).</p>"; }
+// else { echo "<p>Insert operation unsuccessful.</p>"; }
+// mysqli_close ($conn);
+// } else echo "<p>Unable to connect to the db.</p>";
+
+if(isset($_POST['btn4'])){
+    $name=$_POST['reference_number'];
+    require_once ("settings.php");
+       $conn = @mysqli_connect($host,
+       $user,
+       $pwd,
+       $sql_db
+);
+
+if (!$conn) {
+   echo "<p>Database connection failure</p>";
+}else {
+$del = $_POST['delete'];
+$sql_table="eoi";
+$query4 = "delete from eoi where JobReferencenumber = '$del'";
+$result = mysqli_query($conn, $query4);
+   if (!$result){
+       echo "<p>No data found! ", $query4, "<p>";
+   }else{
+      #$query1 = "select * from eoi";
+   #select * from eoi
+        if($del = ""){
+            echo "Please enter valid Job Application Number";
+        }
+        else{
+
+       echo "<table border = \"1\">\n";
+       echo "<tr>\n "
+       ."<th scope = \"col\">EOInumber</th>\n "
+       ."<th scope = \"col\">JobReferencenumber</th>\n "
+       ."<th scope = \"col\">FirstName</th>\n "
+       ."<th scope = \"col\">LastName</th>\n "
+       ."<th scope = \"col\">Streetaddress</th>\n "
+       ."<th scope = \"col\">Suburbtown</th>\n "
+       ."<th scope = \"col\">State</th>\n "
+       ."<th scope = \"col\">Postcode</th>\n "
+       ."<th scope = \"col\">Emailaddress</th>\n "
+       ."<th scope = \"col\">Phonenumber</th>\n "
+       ."<th scope = \"col\">Skill1</th>\n "
+       ."<th scope = \"col\">Skill2</th>\n "
+       ."<th scope = \"col\">Skill3</th>\n "
+       ."<th scope = \"col\">Skill4</th>\n "
+       ."<th scope = \"col\">Skill5</th>\n "
+       ."<th scope = \"col\">Otherskills</th>\n "
+       ."<th scope = \"col\">Status</th>\n "
+       ."</tr>\n ";
+    //    $row = mysqli_fetch_assoc($result);
+    //    while ($row){
+    //        echo "<tr>\n ";
+    //        echo "<td>", $row["EOInumber"], "</td>\n ";
+    //        echo "<td>", $row["JobReferencenumber"], "</td>\n ";
+    //        echo "<td>", $row["FirstName"], "</td>\n ";
+    //        echo "<td>", $row["LastName"], "</td>\n ";
+    //        echo "<td>", $row["Streetaddress"], "</td>\n ";
+    //        echo "<td>", $row["Suburbtown"], "</td>\n ";
+    //        echo "<td>", $row["State"], "</td>\n ";
+    //        echo "<td>", $row["Postcode"], "</td>\n ";
+    //        echo "<td>", $row["Emailaddress"], "</td>\n ";
+    //        echo "<td>", $row["Phonenumber"], "</td>\n ";
+    //        echo "<td>", $row["Skill1"], "</td>\n ";
+    //        echo "<td>", $row["Skill2"], "</td>\n ";
+    //        echo "<td>", $row["Skill3"], "</td>\n ";
+    //        echo "<td>", $row["Skill4"], "</td>\n ";
+    //        echo "<td>", $row["Skill5"], "</td>\n ";
+    //        echo "<td>", $row["Otherskills"], "</td>\n ";
+    //        echo "</tr>\n ";
+    //        $row = mysqli_fetch_assoc($result);
+    //    }
+    }
+       echo "</table>\n ";
+    //    mysqli_free_result($result);
+   }
+       mysqli_close($conn);
+
+   
+}
+   
+   }
+   if(isset($_POST['btn5'])){
+    $name=$_POST['reference_number'];
+    require_once ("settings.php");
+       $conn = @mysqli_connect($host,
+       $user,
+       $pwd,
+       $sql_db
+);
+
+if (!$conn) {
+   echo "<p>Database connection failure</p>";
+}else {
+$status = $_POST['update'];
+$sql_table="eoi";
+$query5 = "update eoi set Status = '$status' where ";
+   $result = mysqli_query($conn, $query5);
+   if (!$result){
+       echo "<p>No data found! ", $query5, "<p>";
+   }else{
+      #$query1 = "select * from eoi";
+   #select * from eoi
+   
+
+       echo "<table border = \"1\">\n";
+       echo "<tr>\n "
+       ."<th scope = \"col\">EOInumber</th>\n "
+       ."<th scope = \"col\">JobReferencenumber</th>\n "
+       ."<th scope = \"col\">FirstName</th>\n "
+       ."<th scope = \"col\">LastName</th>\n "
+       ."<th scope = \"col\">Streetaddress</th>\n "
+       ."<th scope = \"col\">Suburbtown</th>\n "
+       ."<th scope = \"col\">State</th>\n "
+       ."<th scope = \"col\">Postcode</th>\n "
+       ."<th scope = \"col\">Emailaddress</th>\n "
+       ."<th scope = \"col\">Phonenumber</th>\n "
+       ."<th scope = \"col\">Skill1</th>\n "
+       ."<th scope = \"col\">Skill2</th>\n "
+       ."<th scope = \"col\">Skill3</th>\n "
+       ."<th scope = \"col\">Skill4</th>\n "
+       ."<th scope = \"col\">Skill5</th>\n "
+       ."<th scope = \"col\">Otherskills</th>\n "
+       ."<th scope = \"col\">Status</th>\n "
+
+       ."</tr>\n ";
+       while ($row = mysqli_fetch_assoc($result)){
+           echo "<tr>\n ";
+           echo "<td>", $row["EOInumber"], "</td>\n ";
+           echo "<td>", $row["JobReferencenumber"], "</td>\n ";
+           echo "<td>", $row["FirstName"], "</td>\n ";
+           echo "<td>", $row["LastName"], "</td>\n ";
+           echo "<td>", $row["Streetaddress"], "</td>\n ";
+           echo "<td>", $row["Suburbtown"], "</td>\n ";
+           echo "<td>", $row["State"], "</td>\n ";
+           echo "<td>", $row["Postcode"], "</td>\n ";
+           echo "<td>", $row["Emailaddress"], "</td>\n ";
+           echo "<td>", $row["Phonenumber"], "</td>\n ";
+           echo "<td>", $row["Skill1"], "</td>\n ";
+           echo "<td>", $row["Skill2"], "</td>\n ";
+           echo "<td>", $row["Skill3"], "</td>\n ";
+           echo "<td>", $row["Skill4"], "</td>\n ";
+           echo "<td>", $row["Skill5"], "</td>\n ";
+           echo "<td>", $row["Otherskills"], "</td>\n ";
+           echo "<td>", $row["Status"], "</td>\n ";
+           echo "</tr>\n ";
+       }
+       echo "</table>\n ";
+       mysqli_free_result($result);
+   }
+       mysqli_close($conn);
+       
+   
+}
+   
+   }
+
+
+
+
+
+
+ ?>
